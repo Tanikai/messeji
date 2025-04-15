@@ -44,18 +44,17 @@ If you don't want to use a JSON file or parse your own filetype, just pass a
 list of messages to `messeji`:
 
 ```typst
-#let my-messages = [
-  {
-      "date": "2026-12-25T09:41:00",
-      "msg": "Merry Christmas! 🎄",
-      "from_me": false
-    },
-    {
-      "msg": "Thank you! 😊",
-      "ref": "Merry Christmas! 🎄",
-      "from_me": true
-    }
-]
+#let my-messages = (
+  (
+    date: "2024-01-01T12:00:00",
+    msg: "This is defined directly in the Typst file.",
+    from_me: false,
+  ),
+  (
+    msg: "Nice!",
+    from_me: true,
+  ),
+)
 #messeji(
   chat-data: my-messages
 )
