@@ -2,7 +2,7 @@
 
 A Typst package for typesetting multi-page chat histories, with JSON support.
 
-![Example Chat](./examples/example.jpg)
+![Example Chat](examples/example.jpg)
 
 ## Import
 
