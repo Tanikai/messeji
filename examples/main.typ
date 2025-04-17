@@ -44,6 +44,14 @@ These issues will likely be fixed in a future release.
 
 = Usage
 
+== Import
+
+Add the following import statement to the top of your document:
+
+```typst
+#import "@preview/messeji:0.2.0": messeji
+```
+
 == Message Structure
 
 The messages have to be in the following structure (dictionary formatted as

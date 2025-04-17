@@ -115,7 +115,7 @@
               block(
                 width: auto,
                 inset: bubble-inset,
-                fill: curr-theme.at("quote-background-color"), // quotes are always in "other theme"
+                fill: curr-theme.at("quote-background-color"),
                 radius: radius,
                 align(
                   left,
@@ -162,7 +162,7 @@
   )
 }
 #let messeji(
-  chat-data: [], // array of 
+  chat-data: [], // array of messages
   date-changed-format: none,
   timestamp-format: "[year]-[month]-[day] [hour]:[minute]",
   theme: (:), // theme dictionary, if value is not filled, default is used

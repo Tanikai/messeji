@@ -17,7 +17,7 @@ To see how it works, read the short introduction below, or [the messeji user man
 ## Import
 
 ```typst
-#import "@preview/messeji:0.1.0": messeji
+#import "@preview/messeji:0.2.0": messeji
 ```
 
 ## Basic Usage
