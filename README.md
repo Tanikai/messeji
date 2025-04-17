@@ -12,6 +12,8 @@ Main features of _messēji_ include:
 - Simple data model to read from external files (JSON, YAML, ...) if you want to
   typeset very long chat histories
 
+To see how it works, read the short introduction below, or [the messeji user manual](https://github.com/Tanikai/messeji/blob/main/examples/main.pdf) for a more in-depth explanation.
+
 ## Import
 
 ```typst
@@ -62,6 +64,10 @@ to pass a list of messages to `messeji`:
 )
 #messeji(chat-data: my-messages)
 ```
+
+## Theming
+
+You can also customize the appearance of the messages. This is explained in [the messeji user manual](https://github.com/Tanikai/messeji/blob/main/examples/main.pdf).
 
 ## Known Issues
 
