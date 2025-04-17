@@ -8,4 +8,4 @@ description = "Typeset multi-page chat histories, including from external JSON f
 repository = "https://github.com/Tanikai/messeji"
 keywords = ["chat", "history", "message", "messenger"]
 categories = ["visualization", "fun"]
-exclude = [".gitignore", "examples/*"]
+exclude = [".gitignore", "examples"]
