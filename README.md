@@ -1,47 +1,52 @@
 # messēji
 
-A Typst package for typesetting multi-page chat histories, with JSON support.
+_messēji_ is a Typst package for typesetting chat histories in a modern, minimal
+design, inspired by popular messengers.
 
 ![Example Chat](examples/example.jpg)
+
+Main features of _messēji_ include:
+
+- Support for quoted messages
+- Displaying timestamps between messages
+- Simple data model to read from external files (JSON, YAML, ...) if you want to
+  typeset very long chat histories
 
 ## Import
 
 ```typst
-#import "@preview/messeji:0.1.0": messeji, parse-json
+#import "@preview/messeji:0.1.0": messeji
 ```
 
 ## Basic Usage
 
-The JSON file has to have the following structure:
+The JSON file just needs to be an array of messages:
 
 ```json5
-{
-  "messages": [
-    {
-      "date": "2026-12-25T09:41:00",
-      "msg": "Merry Christmas! 🎄",
-      "from_me": false
-    },
-    {
-      "msg": "Thank you! 😊",
-      "ref": "Merry Christmas! 🎄", // Responses to messages have to be duplicated
-      "from_me": true
-    }
-  ]
-}
+[
+  {
+    "date": "2026-12-25T09:41:00",
+    "msg": "Merry Christmas! 🎄",
+    "from_me": false
+  },
+  {
+    "msg": "Thank you! 😊",
+    "ref": "Merry Christmas! 🎄", // Responses to messages have to be duplicated
+    "from_me": true
+  }
+]
 ```
 
-Then, you can import the JSON file with `parse-json(path)` and typeset it by calling `messeji`:
+Then, you can import the JSON file with the built-in JSON parser from Typst and
+typeset it by calling `messeji`:
 
 ```typst
-#let parsed-data = parse-json("mychat.json")
-#messeji(
-  chat-data: parsed-data
-)
+#let parsed-data = json("mychat.json")
+#messeji(chat-data: parsed-data)
 ```
 
-If you don't want to use a JSON file or parse your own filetype, just pass a
-list of messages to `messeji`:
+If you don't want to use a JSON file or parse your own filetype, you just have
+to pass a list of messages to `messeji`:
 
 ```typst
 #let my-messages = (
@@ -55,9 +60,7 @@ list of messages to `messeji`:
     from_me: true,
   ),
 )
-#messeji(
-  chat-data: my-messages
-)
+#messeji(chat-data: my-messages)
 ```
 
 ## Known Issues
@@ -65,6 +68,6 @@ list of messages to `messeji`:
 Currently, there is no support for:
 
 - Image messages
-- Custom themes
+- Reactions to messages
 
 These issues will likely be fixed in a future release.
