@@ -1,8 +1,46 @@
-#let parse-json(
-  path,
+#let default-theme = (
+  timestamp-color: rgb(101, 103, 107),
+  timestamp-size: .9em,
+  date-changed-color: black,
+  date-changed-size: 1.5em,
+  me-right: (
+    color: white,
+    background-color: rgb("#3797F0"),
+    quote-color: black,
+    quote-background-color: rgb(239, 239, 239),
+  ),
+  other-left: (
+    color: black,
+    background-color: rgb(239, 239, 239),
+    quote-color: black,
+    quote-background-color: rgb(239, 239, 239),
+  ),
+)
+
+#let _fill_dict_default(
+  actual,
+  default,
 ) = {
-  let chat-obj = json(path)
-  return chat-obj.at("messages")
+  // iterate over every key of default
+
+  let result = (:)
+
+  for (key, value) in default.pairs() {
+    // if key exists in actual dictionary, use its value
+    if key in actual {
+      // check for nested dictionary -> recursive call
+      if type(actual.at(key)) == dictionary {
+        result.insert(key, _fill_dict_default(actual.at(key), default.at(key)))
+      } else {
+        result.insert(key, actual.at(key))
+      }
+    } else {
+      // insert value from default dictionary
+      result.insert(key, value)
+    }
+  }
+
+  return result
 }
 
 #let _to_int(s) = {
@@ -32,7 +70,9 @@
   )
 }
 
+
 #let chat-bubble(
+  theme, // dictionary, see default-theme
   message,
   quote: "",
   msg-align: "left", // "left" or "right",
@@ -42,22 +82,11 @@
   let radius = 0.8em
   let tail = true
 
-  // Left / Right theme settings
-  let me = (
-    background-color: rgb("#3797F0"),
-    color: white,
-  )
-
-  let other = (
-    background-color: rgb(239, 239, 239),
-    color: black,
-  )
-
   // Rendering
   let is-right = msg-align == "right"
-  let theme = other
+  let curr-theme = theme.other-left
   if is-right {
-    theme = me
+    curr-theme = theme.me-right
   }
 
   // optional: quoted message
@@ -75,22 +104,23 @@
               dir: ltr,
               spacing: 4pt,
               if not is-right {
+                // vertical line next to quoted message
                 rect(
                   width: 3pt,
                   height: 20pt,
                   radius: 1.5pt,
-                  fill: other.at("background-color"),
+                  fill: curr-theme.at("quote-background-color"),
                 )
               },
               block(
                 width: auto,
                 inset: bubble-inset,
-                fill: other.at("background-color"), // quotes are always in "other theme"
+                fill: curr-theme.at("quote-background-color"), // quotes are always in "other theme"
                 radius: radius,
                 align(
                   left,
                   text(
-                    other.at("color"),
+                    curr-theme.at("quote-color"),
                     size: 0.875em,
                     quote,
                   ),
@@ -101,7 +131,7 @@
                   width: 3pt,
                   height: 20pt,
                   radius: 1.5pt,
-                  fill: other.at("background-color"),
+                  fill: curr-theme.at("quote-background-color"),
                 )
               },
             ),
@@ -111,7 +141,7 @@
         block(
           width: auto,
           inset: bubble-inset,
-          fill: theme.at("background-color"),
+          fill: curr-theme.at("background-color"),
           radius: (
             top-left: radius,
             top-right: radius,
@@ -121,7 +151,7 @@
           align(
             left,
             text(
-              theme.at("color"),
+              curr-theme.at("color"),
               size: 0.9375em,
               message,
             ),
@@ -131,21 +161,17 @@
     ),
   )
 }
-
 #let messeji(
-  // Parsed chat data, e.g., parse-json("path")
-  // Required structure: [
-  //    {...},
-  //    ...
-  // ]
-  chat-data: none,
+  chat-data: [], // array of 
   date-changed-format: none,
   timestamp-format: "[year]-[month]-[day] [hour]:[minute]",
-  theme: none, // used in later releases
+  theme: (:), // theme dictionary, if value is not filled, default is used
 ) = {
   if chat-data.len() == 0 {
     return
   }
+
+  let curr-theme = _fill_dict_default(theme, default-theme)
 
   let last_day = 0
   let previous_sender = chat-data.first().at("from_me")
@@ -201,18 +227,19 @@
           if date_str != "" {
             align(center)[
               #v(16pt)
-              #text(size: 1.5em, date_str)
+              #text(curr-theme.at("date-changed-color"), size: curr-theme.at("date-changed-size"), date_str)
               #v(8pt)
             ]
           },
           if time_str != "" {
             align(center)[
               #v(16pt)
-              #text(rgb(101, 103, 107), time_str)
+              #text(curr-theme.at("timestamp-color"), size: curr-theme.at("timestamp-size"), time_str)
               #v(8pt)
             ]
           },
           chat-bubble(
+            curr-theme,
             msg.at("msg"),
             quote: quote,
             msg-align: msg_align,
