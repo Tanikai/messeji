@@ -15,6 +15,11 @@
     quote-color: black,
     quote-background-color: rgb(239, 239, 239),
   ),
+  reaction-stroke-color: white,
+  bubble-inset: 0.6em,
+  bubble-radius: 0.8em,
+  bubble-tail: true,
+  image-width: 50%,
 )
 
 #let _fill_dict_default(
@@ -80,9 +85,11 @@
   image: none,
 ) = {
   // Global Settings
-  let bubble-inset = 0.6em
-  let radius = 0.8em
-  let tail = true
+  let bubble-inset = theme.at("bubble-inset")
+  let radius = theme.at("bubble-radius")
+  let tail = theme.at("bubble-tail")
+  let image-width = theme.at("image-width")
+  let reaction-stroke-color = theme.at("reaction-stroke-color")
 
   // Rendering
   let is-right = msg-align == "right"
@@ -90,6 +97,7 @@
   if is-right {
     curr-theme = theme.me-right
   }
+  let background-color = curr-theme.at("background-color")
 
   // optional: quoted message
   align(
@@ -151,7 +159,7 @@
             bottom-right: if is-right and tail { 0pt } else { radius },
           ),
           inset: bubble-inset / 2,
-          fill: curr-theme.at("background-color"),
+          fill: background-color,
           stack(
             dir: ttb,
             spacing: 0pt,
@@ -160,7 +168,7 @@
             if image != none {
               block(
                 clip: true, // for rounded corners of image
-                width: 50%,
+                width: image-width,
                 radius: radius - (bubble-inset / 2), // innerR = outerR - gap
                 image,
               )
@@ -192,14 +200,14 @@
                 dy: bubble-inset * 2,
                 block(
                   width: auto,
-                  stroke: 1pt + white,
+                  stroke: 1pt + reaction-stroke-color,
                   inset: (
                     top: bubble-inset / 2,
                     bottom: bubble-inset / 2,
                     left: bubble-inset,
                     right: bubble-inset,
                   ),
-                  fill: curr-theme.at("background-color"),
+                  fill: background-color,
                   radius: radius,
                   text(size: .7em, reaction),
                 ),
