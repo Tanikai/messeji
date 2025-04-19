@@ -76,6 +76,7 @@
   message,
   quote: "",
   msg-align: "left", // "left" or "right",
+  image: none,
 ) = {
   // Global Settings
   let bubble-inset = 0.6em
@@ -96,6 +97,7 @@
       breakable: false,
       stack(
         spacing: 2pt,
+        // quoted message
         if quote != "" {
           v(2pt)
           align(
@@ -137,34 +139,63 @@
             ),
           )
         },
-        // actual message
+
+        // message bubble
         block(
           width: auto,
-          inset: bubble-inset,
-          fill: curr-theme.at("background-color"),
           radius: (
             top-left: radius,
             top-right: radius,
             bottom-left: if is-right or not tail { radius } else { 0pt },
             bottom-right: if is-right and tail { 0pt } else { radius },
           ),
-          align(
-            left,
-            text(
-              curr-theme.at("color"),
-              size: 0.9375em,
-              message,
-            ),
+          inset: bubble-inset / 2,
+          fill: curr-theme.at("background-color"),
+          stack(
+            dir: ttb,
+            // spacing: 0,
+
+            // image (optional)
+            if image != none {
+              block(
+                clip: true, // for rounded corners of image
+                width: 50%,
+                radius: radius - (bubble-inset / 2), // innerR = outerR - gap
+                image,
+              )
+            },
+
+            // caption
+            if message != "" {
+              if image != none {
+                // add margin if image was before 
+              v(bubble-inset / 2)
+              }
+              block(
+                width: auto,
+                inset: bubble-inset / 2,
+                align(
+                  left,
+                  text(
+                    curr-theme.at("color"),
+                    size: 0.9375em,
+                    message,
+                  ),
+                ),
+              )
+            },
           ),
         ),
       ),
     ),
   )
 }
+
 #let messeji(
   chat-data: [], // array of messages
   date-changed-format: none,
   timestamp-format: "[year]-[month]-[day] [hour]:[minute]",
+  images: (:), // image dictionary, key is filename, value is loaded image
   theme: (:), // theme dictionary, if value is not filled, default is used
 ) = {
   if chat-data.len() == 0 {
@@ -218,34 +249,59 @@
       quote = msg.at("ref")
     }
 
+    let image = none
+    if "image" in msg {
+      let image-name = msg.at("image")
+      image = images.at(image-name)
+    }
+
+    let msg_text = ""
     if "msg" in msg {
-      block(
-        breakable: false,
-        width: 100%,
-        stack(
-          dir: ttb,
-          if date_str != "" {
-            align(center)[
-              #v(16pt)
-              #text(curr-theme.at("date-changed-color"), size: curr-theme.at("date-changed-size"), date_str)
-              #v(8pt)
-            ]
-          },
-          if time_str != "" {
-            align(center)[
-              #v(16pt)
-              #text(curr-theme.at("timestamp-color"), size: curr-theme.at("timestamp-size"), time_str)
-              #v(8pt)
-            ]
-          },
-          chat-bubble(
-            curr-theme,
-            msg.at("msg"),
-            quote: quote,
-            msg-align: msg_align,
-          ),
+      msg_text = msg.at("msg")
+    }
+
+    block(
+      breakable: false,
+      width: 100%,
+      stack(
+        dir: ttb,
+        if date_str != "" {
+          align(center)[
+            #v(16pt)
+            #text(curr-theme.at("date-changed-color"), size: curr-theme.at("date-changed-size"), date_str)
+            #v(8pt)
+          ]
+        },
+        if time_str != "" {
+          align(center)[
+            #v(16pt)
+            #text(curr-theme.at("timestamp-color"), size: curr-theme.at("timestamp-size"), time_str)
+            #v(8pt)
+          ]
+        },
+        chat-bubble(
+          curr-theme,
+          msg_text,
+          image: image,
+          quote: quote,
+          msg-align: msg_align,
         ),
-      )
+      ),
+    )
+  }
+}
+
+// Returns a dictionary of image names that are present in the chat data
+#let get-image-names(
+  chat-data,
+) = {
+  let results = (:)
+
+  for msg in chat-data {
+    if "image" in msg {
+      let image-name = msg.at("image")
+      results.insert(image-name, none)
     }
   }
+  return results
 }
