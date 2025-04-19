@@ -1,6 +1,10 @@
 [
   {
     "date": "2025-04-20T12:15:00",
+    "msg": "Hey!",
+    "from_me": true
+  },
+  {
     "msg": "Look at this cute cat!",
     "from_me": true
   },

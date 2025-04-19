@@ -116,7 +116,12 @@
               },
               block(
                 width: auto,
-                inset: bubble-inset,
+                inset: (
+                  top: bubble-inset / 2,
+                  left: bubble-inset,
+                  right: bubble-inset,
+                  bottom: bubble-inset / 2,
+                ),
                 fill: curr-theme.at("quote-background-color"),
                 radius: radius,
                 align(
@@ -153,7 +158,7 @@
           fill: curr-theme.at("background-color"),
           stack(
             dir: ttb,
-            // spacing: 0,
+            spacing: 0pt,
 
             // image (optional)
             if image != none {
@@ -168,12 +173,14 @@
             // caption
             if message != "" {
               if image != none {
-                // add margin if image was before 
-              v(bubble-inset / 2)
+                v(bubble-inset / 2)
               }
               block(
                 width: auto,
-                inset: bubble-inset / 2,
+                inset: (
+                  left: bubble-inset / 2,
+                  right: bubble-inset / 2,
+                ),
                 align(
                   left,
                   text(
@@ -203,6 +210,10 @@
   }
 
   set block(spacing: 0pt)
+  set text(
+    top-edge: "ascender",
+    bottom-edge: "descender",
+  )
 
   let curr-theme = _fill_dict_default(theme, default-theme)
 
@@ -241,9 +252,6 @@
       } else {
         v(4pt)
       }
-    } else {
-      // same sender
-      v(4pt)
     }
 
     let quote = ""
