@@ -79,7 +79,7 @@
   image: none,
 ) = {
   // Global Settings
-  let bubble-inset = 0.6em
+  let bubble-inset = 0.75em
   let radius = 0.8em
   let tail = true
 
