@@ -75,6 +75,7 @@
   theme, // dictionary, see default-theme
   message,
   quote: "",
+  reaction: "",
   msg-align: "left", // "left" or "right",
   image: none,
 ) = {
@@ -183,11 +184,37 @@
                 ),
               )
             },
+
+            if reaction != "" {
+              place(
+                bottom + if is-right { right } else { left },
+                dx: if is-right { 1 } else { -1 } * bubble-inset / 3,
+                dy: bubble-inset * 2,
+                block(
+                  width: auto,
+                  stroke: 1pt + white,
+                  inset: (
+                    top: bubble-inset / 2,
+                    bottom: bubble-inset / 2,
+                    left: bubble-inset,
+                    right: bubble-inset,
+                  ),
+                  fill: curr-theme.at("background-color"),
+                  radius: radius,
+                  text(size: .7em, reaction),
+                ),
+              )
+            },
           ),
         ),
       ),
     ),
   )
+
+  if reaction != "" {
+    // add margin if reaction bubble was used
+    v(1em)
+  }
 }
 
 #let messeji(
@@ -202,10 +229,7 @@
   }
 
   set block(spacing: 0pt)
-  set text(
-    // top-edge: "ascender",
-    // bottom-edge: "descender",
-  )
+  set text(top-edge: 1em, baseline: -0.15em)
 
   let curr-theme = _fill_dict_default(theme, default-theme)
 
@@ -262,6 +286,11 @@
       msg_text = msg.at("msg")
     }
 
+    let reaction = ""
+    if "reaction" in msg {
+      reaction = msg.at("reaction")
+    }
+
     block(
       breakable: false,
       width: 100%,
@@ -286,6 +315,7 @@
           msg_text,
           image: image,
           quote: quote,
+          reaction: reaction,
           msg-align: msg_align,
         ),
       ),
