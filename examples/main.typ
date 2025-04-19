@@ -1,4 +1,4 @@
-#import "../messeji.typ": messeji, default-theme
+#import "../messeji.typ": messeji, default-theme, get-image-names
 
 #set page("a4")
 #set text(font: "Helvetica Neue")
@@ -59,17 +59,20 @@ JSON):
 
 ```json5
 {
-  // Required
-  "msg": "Actual Message", 
+  // Optional, can be combined with image
+  "msg": "Actual Message",
+
+  // Optional, can be combined with msg
+  "image": "path_to_image.jpg"
 
   // Required, true for right, false for left
   "from_me": true,
 
   // Optional, in ISO 8601 format
-  "date": "2026-12-25T09:41:00", 
+  "date": "2026-12-25T09:41:00",
 
   // Optional
-  "ref": "Previous message that is being quoted", 
+  "ref": "Previous message that is being quoted",
 }
 ```
 
@@ -147,6 +150,83 @@ Produces the following chat:
 
 
 #pagebreak(weak: true)
+
+== Messages with Images
+
+As typst does not support directory walking
+#footnote[#link("https://forum.typst.app/t/is-there-a-way-to-retrieve-the-current-file-name-list-files-etc-within-typst/155/3")],
+loading messages with images from a JSON file is a bit more complicated.
+Additionally, Typst packages cannot access the working directory of your
+project, which means that you have to define the function that loads the images,
+and pass them to messeji as parameters. However, there is still a way to do this
+automatically.
+
+In short, you just have to add a single function to your Typst document that
+handles loading the images from your directory. The general workflow looks like
+this:
+
+1. Save all images in the same directory (e.g., `img`)
+2. Import and use the `get-image-names` function from messeji to get all image
+  names that are defined in your message list. It returns the image names in a
+  dictionary, and still has to be filled with the loaded images.
+3. Pass the image names to your own `load-images` function (see below) to load
+  them into Typst.
+4. Pass the loaded images to `messeji`.
+
+In detail, add the following code to your document:
+
+```typst
+#import "@preview/messeji...": messeji, get-image-names // import image name function
+
+// this function has to be defined in your own document, as it accesses files
+// located in your project directory (with the `image()` function).
+#let load-images(
+  directory, // with trailing slash!
+  image-names,
+) = {
+  for img-name in image-names.keys() {
+    image-names.insert(img-name, image(directory + img-name, fit: "contain"))
+  }
+  return image-names
+}
+
+#let chat-with-images = json("image.example.json") // Load chat data from JSON file
+
+#let image-names = get-image-names(chat-with-images) // Load image names from loaded chat data
+
+#let loaded-images = load-images("img/", image-names) // Load actual images into Typst
+
+#messeji(
+  chat-data: chat-with-images,
+  images: loaded-images,
+)
+```
+
+This produces the following chat:
+
+#let load-images(
+  directory, // with trailing slash!
+  image-names,
+) = {
+  for img-name in image-names.keys() {
+    image-names.insert(
+      img-name,
+      image(
+        directory + img-name,
+        fit: "contain",
+      ),
+    )
+  }
+  return image-names
+}
+
+#let chat-with-images = json("image.example.json")
+#let image-names = get-image-names(chat-with-images)
+#let loaded-images = load-images("img/", image-names)
+#messeji(
+  chat-data: chat-with-images,
+  images: loaded-images,
+)
 
 = Customization
 

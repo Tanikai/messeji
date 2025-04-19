@@ -1,6 +1,10 @@
 [
   {
     "date": "2026-12-25T09:41:00",
+    "msg": "Hey!",
+    "from_me": false
+  },
+  {
     "msg": "Merry Christmas! 🎄",
     "from_me": false
   },
