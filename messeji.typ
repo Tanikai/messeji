@@ -202,6 +202,8 @@
     return
   }
 
+  set block(spacing: 0pt)
+
   let curr-theme = _fill_dict_default(theme, default-theme)
 
   let last_day = 0
