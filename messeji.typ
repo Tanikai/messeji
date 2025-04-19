@@ -79,7 +79,7 @@
   image: none,
 ) = {
   // Global Settings
-  let bubble-inset = 0.75em
+  let bubble-inset = 0.6em
   let radius = 0.8em
   let tail = true
 
@@ -116,12 +116,7 @@
               },
               block(
                 width: auto,
-                inset: (
-                  top: bubble-inset / 2,
-                  left: bubble-inset,
-                  right: bubble-inset,
-                  bottom: bubble-inset / 2,
-                ),
+                inset: bubble-inset,
                 fill: curr-theme.at("quote-background-color"),
                 radius: radius,
                 align(
@@ -177,10 +172,7 @@
               }
               block(
                 width: auto,
-                inset: (
-                  left: bubble-inset / 2,
-                  right: bubble-inset / 2,
-                ),
+                inset: bubble-inset / 2,
                 align(
                   left,
                   text(
@@ -211,8 +203,8 @@
 
   set block(spacing: 0pt)
   set text(
-    top-edge: "ascender",
-    bottom-edge: "descender",
+    // top-edge: "ascender",
+    // bottom-edge: "descender",
   )
 
   let curr-theme = _fill_dict_default(theme, default-theme)
