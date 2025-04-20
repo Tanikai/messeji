@@ -29,7 +29,9 @@
 
 = Introduction
 
-With _messēji_, typesetting long chat histories. Main features of _messēji_ include:
+With _messēji_, you can easily typeset long chats by passing in your history as
+a JSON file. No clutter in your Typst document, and you can focus on your actual
+content. Main features of _messēji_ include:
 
 - Support for quoted messages
 - Image messages (with and without captions)
