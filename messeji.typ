@@ -17,7 +17,7 @@
   ),
   reaction-stroke-color: white,
   bubble-inset: 0.6em,
-  bubble-radius: 0.8em,
+  bubble-radius: 1.5em,
   bubble-tail: true,
   image-width: 50%,
 )
