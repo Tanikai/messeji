@@ -119,7 +119,7 @@
         spacing: 2pt,
         // quoted message
         if quote != "" {
-          v(2pt)
+          v(4pt)
           align(
             horizon,
             stack(
