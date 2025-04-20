@@ -4,7 +4,7 @@ _messēji_ ("Message" in Japanese) is a Typst package for typesetting chat
 histories in a modern, minimal design, inspired by popular messengers. No manual
 copying to your Typst document required, just pass in a JSON file.
 
-![Example Chat](examples/example.jpg)
+![Example Chat](docs/example.jpg)
 
 Main features of _messēji_ include:
 
