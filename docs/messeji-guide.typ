@@ -1,31 +1,25 @@
-#import "../messeji.typ": messeji, default-theme, get-image-names
+// Imports
+#import "template.typ": *
+#import "@preview/tidy:0.4.2"
+#import "../messeji.typ"
 
-#set page("a4")
-#set text(font: "Helvetica Neue")
-#show link: underline
+#let typst-toml = toml("../typst.toml").at("package")
 
-#v(20%)
-
-#align(horizon + center)[
-
-  #text(size: 24pt, [messēji])
-
-  MIT License 2025 Kai Anter
-
-]
-
-#show outline.entry.where(level: 2): set block(above: 1.2em)
-
-#outline()
-
-Note: Build this document with `typst compile main.typ --root ..`
+#show: project.with(
+  title: typst-toml.at("name"),
+  subtitle: typst-toml.at("description"),
+  authors: typst-toml.at("authors"),
+  abstract: "messēji is a Typst package for typesetting chat histories in a
+  modern, minimal design, inspired by popular messengers. No manual copying to
+  Typst required, just pass in a JSON file.",
+  date: datetime.today().display("[month repr:long] [day], [year]"),
+  version: typst-toml.at("version"),
+  url: typst-toml.at("repository"),
+)
 
 = Introduction
 
-_messēji_ is a Typst package for typesetting chat histories in a modern, minimal
-design, inspired by popular messengers.
-
-Main features of _messēji_ include:
+With _messēji_, typesetting long chat histories . Main features of _messēji_ include:
 
 - Support for quoted messages
 - Image messages (with and without captions)
@@ -43,15 +37,13 @@ These features are currently not planned to be implemented. However, if you need
 them, #link("https://github.com/Tanikai/messeji/issues")[create an issue] and
 I'll look into it (if I have the time).
 
-#pagebreak(weak: true)
-
 = Usage
 
 == Import
 
 Add the following import statement to the top of your document:
 
-```typst
+```typ
 #import "@preview/messeji:0.2.0": messeji
 ```
 
@@ -88,7 +80,7 @@ in ISO 8601 format.
 
 == Basic example from JSON
 
-```typst
+```typ
 #set text(font: "Helvetica Neue")
 #let parsed-data = json("output.example.json") // list of messages
 #messeji(chat-data: parsed-data)
@@ -116,13 +108,17 @@ It then produces the following chat:
 
 #line(length: 100%)
 #let parsed-data = json("output.example.json")
-#messeji(chat-data: parsed-data)
+#{
+  set text(font: "Helvetica Neue")
+  messeji.messeji(chat-data: parsed-data)
+}
+#v(1em)
 #line(length: 100%)
 
 
 == Basic example directly in Typst
 
-```typst
+```typ
 #let my-messages = (
   (
     date: "2024-01-01T12:00:00",
@@ -151,7 +147,11 @@ Produces the following chat:
     from_me: true,
   ),
 )
-#messeji(chat-data: my-messages)
+#{
+  set text(font: "Helvetica Neue")
+  messeji.messeji(chat-data: my-messages)
+}
+#v(1em)
 #line(length: 100%)
 
 
@@ -181,7 +181,7 @@ this:
 
 In detail, add the following code to your document:
 
-```typst
+```typ
 #import "@preview/messeji...": messeji, get-image-names // import image name function
 
 // this function has to be defined in your own document, as it accesses files
@@ -210,6 +210,7 @@ In detail, add the following code to your document:
 
 This produces the following chat:
 
+#line(length: 100%)
 #let load-images(
   directory, // with trailing slash!
   image-names,
@@ -227,12 +228,17 @@ This produces the following chat:
 }
 
 #let chat-with-images = json("image.example.json")
-#let image-names = get-image-names(chat-with-images)
+#let image-names = messeji.get-image-names(chat-with-images)
 #let loaded-images = load-images("img/", image-names)
-#messeji(
-  chat-data: chat-with-images,
-  images: loaded-images,
-)
+#{
+  set text(font: "Helvetica Neue")
+  messeji.messeji(
+    chat-data: chat-with-images,
+    images: loaded-images,
+  )
+}
+#v(1em)
+#line(length: 100%)
 
 = Customization
 
@@ -241,12 +247,12 @@ This produces the following chat:
 You can customize the text colors, backgrounds, and font sizes. Currently, the
 default theme has the following keys and values:
 
-#raw(repr(default-theme), lang: "typst")
+#raw("#let default-theme = " + repr(messeji.default-theme), lang: "typ", block: true)
 
 If you want to change the theme, you just have to override the keys that you
 need. Everything else that is undefined will be taken from the default theme:
 
-```typst
+```typ
 #let custom-theme = (
   me-right: (
     background-color: green
@@ -260,15 +266,21 @@ need. Everything else that is undefined will be taken from the default theme:
 
 Produces the following output:
 
+#line(length: 100%)
 #let custom-theme = (
   me-right: (
     background-color: green,
   ),
 )
-#messeji(
-  chat-data: parsed-data,
-  theme: custom-theme,
-)
+#{
+  set text(font: "Helvetica Neue")
+  messeji.messeji(
+    chat-data: parsed-data,
+    theme: custom-theme,
+  )
+}
+#v(1em)
+#line(length: 100%)
 
 == Custom timestamp and date-change format
 
@@ -281,7 +293,7 @@ here for Typst documentation)].
 If you want to highlight that a new day started, you can use
 `date-changed-format`. By default, this is deactivated by setting it to `""`.
 
-```typst
+```typ
 #messeji(
   chat-data: parsed-data,
   date-changed-format: "[year]/[month]/[day]",
@@ -290,10 +302,37 @@ If you want to highlight that a new day started, you can use
 ```
 
 #line(length: 100%)
-#messeji(
-  chat-data: parsed-data,
-  date-changed-format: "[year]/[month]/[day]",
-  timestamp-format: "[hour]:[minute]",
-)
+#{
+  set text(font: "Helvetica Neue")
+  messeji.messeji(
+    chat-data: parsed-data,
+    date-changed-format: "[year]/[month]/[day]",
+    timestamp-format: "[hour]:[minute]",
+  )
+}
+#v(1em)
 #line(length: 100%)
 
+= Function Reference
+
+
+#{
+  let messeji-module = tidy.parse-module(
+    read("../messeji.typ"),
+    name: "Messeji",
+    scope: (default-theme: messeji.default-theme),
+  )
+  set heading(numbering: none)
+  show heading.where(level: 3): set text(1.5em)
+  show heading.where(level: 4): it => {
+    set text(1.4em)
+    set align(center)
+    set block(below: 1.2em)
+    it
+  }
+  tidy.show-module(
+    messeji-module,
+    show-module-name: false,
+    first-heading-level: 3,
+  )
+}
