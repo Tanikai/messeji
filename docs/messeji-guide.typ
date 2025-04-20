@@ -29,7 +29,7 @@
 
 = Introduction
 
-With _messēji_, typesetting long chat histories . Main features of _messēji_ include:
+With _messēji_, typesetting long chat histories. Main features of _messēji_ include:
 
 - Support for quoted messages
 - Image messages (with and without captions)
