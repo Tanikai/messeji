@@ -56,7 +56,7 @@ I'll look into it (if I have the time).
 Add the following import statement to the top of your document:
 
 ```typ
-#import "@preview/messeji:0.2.0": messeji
+#import "@preview/messeji:0.3.0": messeji
 ```
 
 == Message Structure
