@@ -246,8 +246,10 @@
   /// Timestamp format every time a message contains a `date` value. -> str
   timestamp-format: "[year]-[month]-[day] [hour]:[minute]",
 
-  /// Image dictionary. Can be generated with `get-image-names`. Key is
-  /// filename, value is loaded image. -> dictionary
+  /// Image dictionary. Key is filename, value is loaded image. Empty version
+  /// with filenames can be generated with `get-image-names`, but has to be filled
+  /// with respective `image`s for every filename before passing it to `messeji`.
+  /// -> dictionary
   images: (:),
 
   /// Theme dictionary. If value is not set, the default value is used. ->
@@ -352,7 +354,8 @@
   }
 }
 
-/// Helper function to array image names that are present in the chat.
+/// Helper function to get image names that are present in the chat for further
+/// processing.
 /// -> dictionary
 #let get-image-names(
   /// Array of messages. -> array
