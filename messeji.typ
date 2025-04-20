@@ -237,7 +237,7 @@
 }
 /// Main function to render chat history.
 #let messeji(
-  /// array of messages -> array
+  /// Array of messages. -> array
   chat-data: [],
 
   /// Date format when the day changes. -> str
@@ -246,10 +246,12 @@
   /// Timestamp format every time a message contains a `date` value. -> str
   timestamp-format: "[year]-[month]-[day] [hour]:[minute]",
 
-  /// Image dictionary. Key is filename, value is loaded image. -> dictionary
+  /// Image dictionary. Can be generated with `get-image-names`. Key is
+  /// filename, value is loaded image. -> dictionary
   images: (:),
 
-  /// Theme dictionary. If value is not set, the default value is used. -> dictionary
+  /// Theme dictionary. If value is not set, the default value is used. ->
+  /// dictionary
   theme: (:),
 ) = {
   if chat-data.len() == 0 {
@@ -287,7 +289,6 @@
       time_str = parsed_date.display(timestamp-format)
     }
 
-    // add padding depending on
     if previous_sender != msg.at("from_me") {
       // different sender -> more padding
       previous_sender = msg.at("from_me")
@@ -354,7 +355,7 @@
 /// Helper function to array image names that are present in the chat.
 /// -> dictionary
 #let get-image-names(
-  /// Array of images. -> array
+  /// Array of messages. -> array
   chat-data,
 ) = {
   let results = (:)
