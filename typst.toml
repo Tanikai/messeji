@@ -1,6 +1,6 @@
 [package]
 name = "messeji"
-version = "0.2.0"
+version = "0.3.0"
 entrypoint = "messeji.typ"
 authors = ["Kai Anter <https://www.anter.dev>"]
 license = "MIT"

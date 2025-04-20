@@ -76,17 +76,17 @@
 }
 
 /// Renders a chat bubble.
-#let chat-bubble(
+#let _chat-bubble(
   /// theme to use -> dictionary
   theme, 
 
-  /// message that should be displayed. -> string
+  /// message that should be displayed. -> str
   message,
 
-  /// Optional quote of message -> string
+  /// Optional quote of message -> str
   quote: "",
 
-  /// Optional reaction to message -> string
+  /// Optional reaction to message -> str
   reaction: "",
 
   /// Alignment of message -> "left" | "right"
@@ -237,13 +237,13 @@
 }
 /// Main function to render chat history.
 #let messeji(
-  /// List of messages -> array
+  /// array of messages -> array
   chat-data: [],
 
-  /// Date format when the day changes. -> string
+  /// Date format when the day changes. -> str
   date-changed-format: none,
 
-  /// Timestamp format every time a message contains a `date` value. -> string
+  /// Timestamp format every time a message contains a `date` value. -> str
   timestamp-format: "[year]-[month]-[day] [hour]:[minute]",
 
   /// Image dictionary. Key is filename, value is loaded image. -> dictionary
@@ -338,7 +338,7 @@
             #v(8pt)
           ]
         },
-        chat-bubble(
+        _chat-bubble(
           curr-theme,
           msg_text,
           image: image,
@@ -351,10 +351,10 @@
   }
 }
 
-/// Helper function to list image names that are present in the chat.
+/// Helper function to array image names that are present in the chat.
 /// -> dictionary
 #let get-image-names(
-  /// Array of images. -> list
+  /// Array of images. -> array
   chat-data,
 ) = {
   let results = (:)

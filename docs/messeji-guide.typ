@@ -9,13 +9,23 @@
   title: typst-toml.at("name"),
   subtitle: typst-toml.at("description"),
   authors: typst-toml.at("authors"),
-  abstract: "messēji is a Typst package for typesetting chat histories in a
-  modern, minimal design, inspired by popular messengers. No manual copying to
-  Typst required, just pass in a JSON file.",
+  abstract: "messēji (\"Message\" in Japanese) is a Typst package for
+  typesetting chat histories in a modern, minimal design, inspired by popular
+  messengers. No manual copying to your Typst document required, just pass in a
+  JSON file.",
   date: datetime.today().display("[month repr:long] [day], [year]"),
   version: typst-toml.at("version"),
   url: typst-toml.at("repository"),
+  note: [Build this document with `typst compile messeji-guide.typ --root ..` \
+    Function reference generated with
+    #link("https://github.com/Mc-Zen/tidy")[tidy].],
 )
+
+
+#show heading.where(level: 1): it => {
+  pagebreak(weak: true)
+  it
+}
 
 = Introduction
 
@@ -182,7 +192,7 @@ this:
 In detail, add the following code to your document:
 
 ```typ
-#import "@preview/messeji...": messeji, get-image-names // import image name function
+#import "@preview/messeji:0.3.0": messeji, get-image-names // import image name function
 
 // this function has to be defined in your own document, as it accesses files
 // located in your project directory (with the `image()` function).
@@ -333,6 +343,7 @@ If you want to highlight that a new day started, you can use
   tidy.show-module(
     messeji-module,
     show-module-name: false,
+    omit-private-definitions: true,
     first-heading-level: 3,
   )
 }

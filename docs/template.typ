@@ -8,6 +8,7 @@
   url: "",
   date: none,
   version: none,
+  note: none,
   body,
 ) = {
   // Set the document's basic properties.
@@ -65,6 +66,14 @@
         text(0.85em, smallcaps[Abstract]),
       )
       #abstract
+
+      // Note.
+      #heading(
+        outlined: false,
+        numbering: none,
+        text(0.85em, smallcaps[Note]),
+      )
+      #note
     ],
   )
 

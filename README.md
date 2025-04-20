@@ -1,7 +1,8 @@
 # messēji
 
-_messēji_ is a Typst package for typesetting chat histories in a modern, minimal
-design, inspired by popular messengers.
+_messēji_ ("Message" in Japanese) is a Typst package for typesetting chat
+histories in a modern, minimal design, inspired by popular messengers. No manual
+copying to your Typst document required, just pass in a JSON file.
 
 ![Example Chat](examples/example.jpg)
 
@@ -12,7 +13,7 @@ Main features of _messēji_ include:
 - Simple data model to read from external files (JSON, YAML, ...) if you want to
   typeset very long chat histories
 
-To see how it works, read the short introduction below, or [the messeji user manual](https://github.com/Tanikai/messeji/blob/main/examples/main.pdf) for a more in-depth explanation.
+To see how it works, read the short introduction below, or [the messeji user manual](https://github.com/Tanikai/messeji/blob/main/docs/messeji-guide.pdf) for a more in-depth explanation.
 
 ## Import
 
@@ -67,7 +68,7 @@ to pass a list of messages to `messeji`:
 
 ## Theming
 
-You can also customize the appearance of the messages. This is explained in [the messeji user manual](https://github.com/Tanikai/messeji/blob/main/examples/main.pdf).
+You can also customize the appearance of the messages. This is explained in [the messeji user manual](https://github.com/Tanikai/messeji/blob/main/docs/messeji-guide.pdf).
 
 ## Known Issues
 
