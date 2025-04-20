@@ -6,7 +6,8 @@
   },
   {
     "image": "cat.jpg",
-    "from_me": true
+    "from_me": true,
+    "reaction": "😍"
   },
   {
     "msg": "Look at this cute cat!",

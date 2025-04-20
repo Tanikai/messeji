@@ -28,17 +28,20 @@ design, inspired by popular messengers.
 Main features of _messēji_ include:
 
 - Support for quoted messages
+- Image messages (with and without captions)
 - Displaying timestamps between messages
 - Simple data model to read from external files (JSON, YAML, ...) if you want to
   typeset very long chat histories
+- Reacting to messages
 
 Currently, it does not support:
 
 - Group chats (only 1-on-1 chats)
-- Reactions to messages
-- Images
+- Displaying names / profile pictures next to the messages
 
-These issues will likely be fixed in a future release.
+These features are currently not planned to be implemented. However, if you need
+them, #link("https://github.com/Tanikai/messeji/issues")[create an issue] and
+I'll look into it (if I have the time).
 
 #pagebreak(weak: true)
 
@@ -63,7 +66,7 @@ JSON):
   "msg": "Actual Message",
 
   // Optional, can be combined with msg
-  "image": "path_to_image.jpg"
+  "image": "path_to_image.jpg",
 
   // Required, true for right, false for left
   "from_me": true,
@@ -73,6 +76,9 @@ JSON):
 
   // Optional
   "ref": "Previous message that is being quoted",
+
+  // Optional, only single emojis are tested / supported
+  "reaction": "❤️"
 }
 ```
 
