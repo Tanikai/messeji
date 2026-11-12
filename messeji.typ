@@ -49,12 +49,8 @@
 }
 
 #let _to_int(s) = {
-  let no_prefix = s.trim("0")
-  if no_prefix.len() == 0 {
-    return 0
-  } else {
+    // keeping for legacy reason (if we need further processing later)
     return int(no_prefix)
-  }
 }
 
 #let _parse_timestamp_iso_8601(s) = {
