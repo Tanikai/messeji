@@ -49,7 +49,7 @@
 }
 
 #let _to_int(s) = {
-  let no_prefix = s.trim("0")
+  let no_prefix = s.trim("0", at:start)
   if no_prefix.len() == 0 {
     return 0
   } else {
